@@ -1,0 +1,142 @@
+:root {
+    --primary-border-radius: 10px;
+    --primary-text-color: #bac3cb;
+    --secondary-text-color: #a3abb1;
+    --dimmed-secondary-text-color: #a3abb1ab;
+    --error-color: #f54c45;
+    --primary-background-color: #0c1116;
+    --secondary-background-color: #161a23;
+    --tertiary-background-color: #202330;
+    --soft-borders-color: #1e232f;
+    --default-border-radius: 10px;
+    --table-border-color: #2f394b;
+
+    background-color: var(--primary-background-color);
+}
+
+body {
+    font-size: 14px;
+    font-family: monospace;
+    color: var(--primary-text-color);
+    background-color: var(--primary-background-color);
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    background-color: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    border: 2px solid var(--soft-borders-color);
+    border-radius: var(--default-border-radius);
+    padding: 8px;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-text-color);
+}
+
+input:invalid {
+    border: 2px dashed var(--error-color);
+}
+
+input:valid {
+    border: 2px solid var(--tertiary-background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-text-color);
+}
+
+button, .button {
+    text-decoration: none;
+    background-color: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    padding: 8px 12px;
+    border: 2px solid var(--soft-borders-color);
+    border-radius: var(--default-border-radius);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover, .button:hover {
+    background-color: var(--tertiary-background-color);
+    color: var(--secondary-text-color);
+}
+
+button:disabled {
+    background-color: var(--soft-borders-color);
+    color: var(--dimmed-secondary-text-color);
+    cursor: not-allowed;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+#input-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: var(--secondary-background-color);
+    border-radius: var(--default-border-radius);
+    width: 300px;
+}
+
+#input-container h4 {
+    margin: 0 0 10px 0;
+    color: var(--primary-text-color);
+}
+
+#secondary-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+}
+
+#jxgbox {
+    width: 500px;
+    height: 500px;
+    border: 2px solid var(--soft-borders-color);
+    border-radius: var(--default-border-radius);
+    margin-top: 20px;
+    background-color: var(--secondary-background-color);
+}
+
+#pointsTable {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    border: 4px double var(--table-border-color);
+}
+
+#pointsTable th,
+#pointsTable td {
+    padding: 10px;
+    text-align: center;
+    border: 2px solid var(--table-border-color);
+}
+
+#pointsTable th {
+    background-color: var(--tertiary-background-color);
+    color: var(--primary-text-color);
+    font-weight: bold;
+}
+
+#pointsTable tr:nth-child(even) {
+    background-color: var(--tertiary-background-color);
+}
+
+#pointsTable tr:nth-child(odd) {
+    background-color: var(--secondary-background-color);
+}
+
+#pointsTable td {
+    color: var(--secondary-text-color);
+}
