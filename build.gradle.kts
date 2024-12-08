@@ -20,6 +20,8 @@ dependencies {
     compileOnly("javax.faces:javax.faces-api:2.3")
     implementation("org.hibernate.orm:hibernate-core:6.6.1.Final")
     implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.hibernate:hibernate-core:5.6.14.Final")
+    implementation("org.hibernate:hibernate-entitymanager:5.6.14.Final")
 }
 
 tasks.test {
@@ -31,7 +33,7 @@ tasks.register("deployToServer") {
     group = "deployment"
     description = "Builds the project, transfers .war to server, restarts WildFly"
 
-    dependsOn("build") // Ensure the project is built before deploying
+    dependsOn("build")
 
     doLast {
         val remoteUser = System.getenv("DEPLOYUSER")
@@ -48,7 +50,7 @@ tasks.register("deployToServer") {
 
         exec {
             commandLine("plink", "-batch", "-pw", password, "$remoteUser@$remoteHost", wildFlyStopCommand)
-            isIgnoreExitValue = true // Continue even if exit code isn't 0
+            isIgnoreExitValue = true
 
         }
 

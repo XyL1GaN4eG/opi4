@@ -3,10 +3,7 @@ package space.nerfthis.data;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import java.io.IOException;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +15,14 @@ public class GraphBean {
     private Double r;
     private List<Point> points = new ArrayList<>();
     private String pointsJson = "";
-
-
-
+    @Inject
+    private DataBaseBean dataBaseBean;
 
     @PostConstruct
-    public void init(){
+    public void init() {
+        dataBaseBean.getAllPoints();
+        points = dataBaseBean.getPoints();
+        pointsJson = JSONBuilder.buildJson(points);
         r = 1.0;
     }
 
@@ -51,10 +50,6 @@ public class GraphBean {
         this.r = r;
     }
 
-    public boolean isFormValid() {
-        return x != null && y != null && r != null;
-    }
-
     public List<Point> getPoints() {
         return points;
     }
@@ -62,6 +57,7 @@ public class GraphBean {
     public String getPointsJson() {
         return pointsJson;
     }
+
     public void setPointsJson(String pointsJson) {
         this.pointsJson = pointsJson;
     }
@@ -70,7 +66,12 @@ public class GraphBean {
         if (x != null && y != null && r != null) {
             Point newPoint = new Point(x, y, r, GeometryValidator.isInsideArea(x, y, r));
             points.add(newPoint);
+            dataBaseBean.addPoint(newPoint);
             pointsJson = JSONBuilder.buildJson(points);
         }
+    }
+
+    public boolean isFormValid() {
+        return x != null && y != null && r != null;
     }
 }

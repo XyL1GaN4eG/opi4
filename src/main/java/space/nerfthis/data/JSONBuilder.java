@@ -11,7 +11,7 @@ public class JSONBuilder {
 
         return dataList.stream()
                 .map(data -> String.format(Locale.US, "{\"x\": %.10f, \"y\": %.10f, \"r\": %f, \"flag\": %s}",
-                        data.getX(), data.getY(), data.getR(), data.isInside()))
+                        data.getX(), data.getY(), data.getR(), data.isFlag()))
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 }

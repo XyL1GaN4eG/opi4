@@ -1,16 +1,30 @@
 package space.nerfthis.data;
 
-public class Point {
-    private double x;
-    private double y;
-    private double r;
-    private boolean isInside;
+import javax.persistence.*;
 
-    public Point(double x, double y, double r, boolean isInside) {
+@Entity
+@Table(name = "Points")
+public class Point {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "x")
+    private double x;
+    @Column(name = "y")
+    private double y;
+    @Column(name = "r")
+    private double r;
+    @Column(name = "isInside")
+    private boolean flag;
+
+
+    public Point(){}
+
+    public Point(double x, double y, double r, boolean flag) {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.isInside = isInside;
+        this.flag = flag;
     }
 
     public double getX() {
@@ -25,7 +39,7 @@ public class Point {
         return r;
     }
 
-    public boolean isInside() {
-        return isInside;
+    public boolean isFlag() {
+        return flag;
     }
 }

@@ -140,3 +140,16 @@ button:disabled {
 #pointsTable td {
     color: var(--secondary-text-color);
 }
+
+a:link, a:visited {
+    background-color: var(--primary-background-color);
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover, a:active {
+    background-color: var(--secondary-background-color);
+}

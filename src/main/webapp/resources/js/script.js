@@ -1,6 +1,29 @@
 $(document).ready(function () {
     let radio = parseFloat($("#graphForm\\:inputR").val());
     let pointsByR = {};
+
+    function checkEnter(x, y, r) {
+        if (x <= 0 && y >= 0) {
+            if (y <= x + (r / 2.0)) {
+                return true;
+            }
+        }
+
+        if (x >= -r && x <= 0) {
+            if (y >= -(r / 2.0)) {
+                return true;
+            }
+        }
+
+        if (x >= 0 && y >= 0) {
+            if (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r, 2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     let board = JXG.JSXGraph.initBoard("jxgbox", {
         boundingbox: [-6, 6, 6, -6],
         axis: true,
@@ -112,35 +135,42 @@ $(document).ready(function () {
 
     redrawGraphs();
 
-    function replacequot(text) {
-        if (!text) return;
-        text = text.replace(/&quot;/g, '\"')
-        return text;
-    }
 
-    response = $("#graphForm\\:hiddenPoints").val();
 
+    response = pointsglobalvalue;
     console.log(response);
 
-    console.log(replacequot(response))
 
-
-    let obj = JSON.parse(response);
+    let obj = pointsglobalvalue;
 
     obj.forEach(data => {
+        console.log(data.x, data.y, data.r, data.flag)
         const {x, y, r} = data;
         if (!pointsByR[r]) pointsByR[r] = [];
 
 
         if (!pointExists(x, y)) {
-            let point = board.create('point', [x, y], {
-                color: 'purple',
-                label: {visible: false}
-            });
-            pointsByR[r].push(point);
-            console.log(`Loaded point at: (${x}, ${y}) for radio: ${r}`);
+            if (data.flag == true) {
+                let point = board.create('point', [x, y], {
+                    color: 'purple',
+                    label: {visible: false}
+                });
+                pointsByR[r].push(point);
+                console.log(`Loaded point at: (${x}, ${y}) for radio: ${r}`);
+            } else {
+                let point = board.create('point', [x, y], {
+                    color: 'red',
+                    label: {visible: false}
+                });
+                pointsByR[r].push(point);
+                console.log(`Loaded point at: (${x}, ${y}) for radio: ${r}`);
+            }
+
         }
     });
+
+
+
 
 
     redrawGraphs();
@@ -168,6 +198,8 @@ $(document).ready(function () {
     }
 
 
+
+
     var getMouseCoords = function (e, i) {
         var pos = board.getMousePosition(e, i);
         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, board);
@@ -187,42 +219,49 @@ $(document).ready(function () {
             return;
         }
 
+            var xInput = document.getElementById("graphForm:hiddenX");
+            var yInput = document.getElementById("graphForm:hiddenY");
+            var rInput = document.getElementById("graphForm:hiddenR");
 
-        $.ajax({
-            url: `/controller?x=${coords.usrCoords[1]}&y=${coords.usrCoords[2]}&r=${radio}`,
-            type: "POST",
-            success: function (response) {
+
+                xInput.value = coords.usrCoords[1];
+                yInput.value = coords.usrCoords[2];
+                rInput.value = radio;
+
+                document.getElementById('graphForm:submitButton').click();
 
                 let point = board.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {
                     color: 'purple',
                     label: {visible: false}
                 })
-                console.log("Point confirmed by server:", response);
                 if (!pointsByR[radio]) pointsByR[radio] = [];
                 pointsByR[radio].push(point);
                 console.log(`Point added to pointsByR at (${coords.usrCoords[1]}, ${coords.usrCoords[2]}) for radio: ${radio}`);
-            },
-            error: function (xhr, status, error) {
-                console.error("Failed to send point to server:", error);
-
 
                 board.removeObject(point);
-            }
-        });
+
     };
 
     board.on('down', handleDown);
 
-    $('#submitButton').click(function () {
+    $('#graphForm\\:submitButton').click(function () {
         let x = parseFloat($('#graphForm\\:hiddenX').val());
         let y = parseFloat($('#graphForm\\:hiddenY').val());
         let r = parseFloat($('#graphForm\\:hiddenR').val());
 
         if (!pointExists(x, y)) {
-            var point = board.create('point', [x, y], {
-                color: 'purple',
-                label: {visible: false}
-            });
+
+            if(checkEnter(x, y, r)) {
+                var point = board.create('point', [x, y], {
+                    color: 'purple',
+                    label: {visible: false}
+                });
+            } else {
+                var point = board.create('point', [x, y], {
+                    color: 'red',
+                    label: {visible: false}
+                });
+            }
             if (!pointsByR[r]) pointsByR[r] = [];
             pointsByR[r].push(point);
             console.log(`Point created at: (${x}, ${y})`);
