@@ -106,7 +106,7 @@ public class PseudoServer {
                 while (_active) {
                     try {
                         handleNewConnection( getServerSocket().accept() );
-                        Thread.sleep( 20 );
+                        Thread.sleep( 0 );
                     } catch (InterruptedIOException e) {
                     } catch (IOException e) {
                         System.out.println( "Error in pseudo server: " + e );

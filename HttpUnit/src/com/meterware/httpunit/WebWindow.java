@@ -262,12 +262,13 @@ public class WebWindow {
      * Delays the specified amount of time.
      **/
     private void delay( int numMilliseconds ) {
-        if (numMilliseconds == 0) return;
-        try {
-            Thread.sleep( numMilliseconds );
-        } catch (InterruptedException e) {
-            // ignore the exception
-        }
+        return;
+//        if (numMilliseconds == 0) return;
+//        try {
+//            Thread.sleep( numMilliseconds );
+//        } catch (InterruptedException e) {
+//            // ignore the exception
+//        }
     }
 
 
