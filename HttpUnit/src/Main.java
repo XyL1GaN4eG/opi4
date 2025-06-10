@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.SAXException;
 
+import static com.meterware.httpunit.HttpUnitOptions.clearScriptErrorMessages;
+
 /**
  *
  * @author gs145266
@@ -46,6 +48,7 @@ public class Main {
                 WebResponse response = sc.getResponse(request);
                 System.out.println("Count: " + number++ + response);
                 java.lang.Thread.sleep(0);
+                clearScriptErrorMessages();
             }
         } catch (InterruptedException ex) {
             Logger.getLogger("global").log(Level.SEVERE, null, ex);
